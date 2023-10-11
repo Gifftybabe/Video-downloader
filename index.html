@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/cadf8a9c51.js" crossorigin="anonymous"></script>
+    <title>Video Downloader</title>
+    <style>
+        body {
+            background-image: url('bg.png');
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+        img {
+            width: 20px; /* Adjust the size as needed */
+        }
+    </style>
+</head>
+<body>
+    <h2>Video Downloader</h2>
+    <input type="text" id="url" placeholder="Enter Video URL">
+    <button id="btn">
+        <i class="fa-solid fa-download"></i>
+        Download
+    </button>
+
+    <script>
+      /*
+      const urlInput = document.getElementById('url');
+      const downloadBtn = document.getElementById('btn');
+
+
+      downloadBtn.addEventListener("click", async () => {
+        try {
+          const response = await fetch(urlInput.value);
+          const file = await response.blob();
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(file);
+          link.download = new Date().getTime();
+
+          link.click();
+          // URL.revokeObjectURL(url);
+        } catch (error) {
+          alert.error("Error downloading the video:", error);
+          
+        }
+      });
+
+      */
+      
+
+      /*
+      // Using callback
+      const urlInput = document.getElementById('url');
+const downloadBtn = document.getElementById('btn');
+
+downloadBtn.addEventListener('click', () => {
+  downloadVideo(urlInput.value, (error) => {
+    if (error) {
+      alert('Error downloading the video: ' + error);
+    }
+  });
+});
+
+function downloadVideo(videoUrl, callback) {
+  fetch(videoUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = new Date().getTime();
+      link.click();
+      URL.revokeObjectURL(link.href);
+      callback(null); // No error, download completed successfully
+    })
+    .catch((error) => {
+      callback(error); // Pass the error to the callback function
+    });
+}
+*/
+      
+
+const urlInput = document.getElementById('url');
+const downloadBtn = document.getElementById('btn');
+
+downloadBtn.addEventListener('click', () => {
+  downloadVideo(urlInput.value)
+    .then(() => {
+      // Download completed successfully
+    })
+    .catch((error) => {
+      alert('Error downloading the video: ' + error);
+    });
+});
+
+function downloadVideo(videoUrl) {
+  return new Promise((resolve, reject) => {
+    fetch(videoUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = new Date().getTime();
+        link.click();
+        URL.revokeObjectURL(link.href);
+        resolve(); // Resolve the Promise to indicate success
+      })
+      .catch((error) => {
+        reject(error); // Reject the Promise with the error
+      });
+  });
+}
+
+
+    </script>
+  </body>
+</html>
